@@ -71,6 +71,6 @@ app.get("/api/animals/:id", (req, res) => {
 })
 
 // Make the server listen
-app.listen(3001, () => {
-    console.log(`API server on port 3001`);
+app.listen(PORT, () => {
+    console.log(`API server on port ${PORT}`);
 });
