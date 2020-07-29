@@ -2,7 +2,6 @@ const express = require("express");
 const {animals} = require("./data/animals.json");
 
 // Instatiate the server
-const PORT = process.env.PORT || 3001;
 const app = express();
 
 // Helper function to filter results based on query parameters
@@ -54,6 +53,7 @@ app.get("/api/animals", (req, res) => {
 });
 
 // Make the server listen
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`API server on port ${PORT}`);
 });
