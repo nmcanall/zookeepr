@@ -1,9 +1,16 @@
 const express = require("express");
 const {animals} = require("./data/animals.json");
+const fs = require("fs");
+const path = require("path");
 
 // Instatiate the server
 const PORT = process.env.PORT || 3001;
 const app = express();
+
+// Parse incoming string or array data
+app.use(express.urlencoded({extended: true}));
+// Parse incoming JSON data
+app.use(express.json());
 
 // Helper function to filter results based on query parameters
 function filterByQuery(query, animalsArray) {
@@ -44,10 +51,41 @@ function filterByQuery(query, animalsArray) {
     return filteredResults;
 }
 
+// Helper function to validate it a new animal is correctly formated
+function validateAnimal(animal) {
+    if(!animal.name || typeof animal.name != "string") {
+        return false;
+    }
+    if(!animal.species || typeof animal.species != "string") {
+        return false;
+    }
+    if(!animal.diet || typeof animal.diet != "string") {
+        return false;
+    }
+    if(!animal.personalityTraits || !Array.isArray(animal.personalityTraits)) {
+        return false;
+    }
+    return true;
+}
+
 // Function to find a specific animal given its ID
 function findById(id, animalsArray) {
     const result = animalsArray.filter(animal => animal.id === id)[0];
     return result;
+}
+
+// Function to add a new animal to the animals JSON package
+function createNewAnimal(body, animalsArray) {
+    const animal = body;
+    animalsArray.push(animal);
+
+    // Write new animal to JSON file
+    fs.writeFileSync(
+        path.join(__dirname, "./data/animals.json"),
+        JSON.stringify({animals: animalsArray}, null, 2)
+    );
+
+    return animal;
 }
 
 // Add route to server
@@ -68,9 +106,21 @@ app.get("/api/animals/:id", (req, res) => {
     else {
         res.sendStatus(404);
     }
-})
+});
+
+// Post new data to animals
+app.post("/api/animals", (req, res) => {
+    req.body.id = animals.length.toString();
+    if(!validateAnimal(req.body)) {
+        res.status(400).send("The animal is not properly formated.");
+    }
+    else {
+        const animal = createNewAnimal(req.body, animals);
+        res.json(animals);
+    }
+});
 
 // Make the server listen
-app.listen(80, () => {
+app.listen(PORT, () => {
     console.log(`API server on port ${PORT}`);
 });
