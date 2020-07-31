@@ -110,31 +110,14 @@
       ]
     },
     {
-      "name": "Larry",
-      "species": "lemur",
-      "diet": "omnivore",
+      "name": "Peter",
+      "species": "Shepherd Mix",
+      "diet": "carnivore",
       "personalityTraits": [
-        "hungry"
+        "hungry",
+        "goofy"
       ],
       "id": "11"
-    },
-    {
-      "name": "Larry",
-      "species": "lemur",
-      "diet": "omnivore",
-      "personalityTraits": [
-        "hungry"
-      ],
-      "id": "12"
-    },
-    {
-      "name": "Larry",
-      "species": "lemur",
-      "diet": "omnivore",
-      "personalityTraits": [
-        "hungry"
-      ],
-      "id": "13"
     }
   ]
 }

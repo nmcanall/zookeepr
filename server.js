@@ -11,6 +11,8 @@ const app = express();
 app.use(express.urlencoded({extended: true}));
 // Parse incoming JSON data
 app.use(express.json());
+// Make public folder available
+app.use(express.static("public"));
 
 // Helper function to filter results based on query parameters
 function filterByQuery(query, animalsArray) {
@@ -88,7 +90,22 @@ function createNewAnimal(body, animalsArray) {
     return animal;
 }
 
-// Add route to server
+// Add route to index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// Add route to animals.html
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+// Add route to zookeepers.html
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+// Add route to animals api
 app.get("/api/animals", (req, res) => {
     let results = animals;
     if(req.query) {
