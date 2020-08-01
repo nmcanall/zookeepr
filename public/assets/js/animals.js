@@ -1,11 +1,7 @@
-// const { response } = require("express");
-
 const $animalForm = document.querySelector('#animals-form');
 const $displayArea = document.querySelector('#display-area');
 
 const printResults = resultArr => {
-  console.log(resultArr);
-
   const animalHTML = resultArr.map(({ id, name, personalityTraits, species, diet }) => {
     return `
   <div class="col-12 col-md-5 mb-3">
@@ -41,7 +37,6 @@ const getAnimals = (formData = {}) => {
       return response.json();
     })
     .then(animalData => {
-      console.log(animalData);
       printResults(animalData);
     });
 
